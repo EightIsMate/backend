@@ -7,6 +7,8 @@
     "start": "nodemon -e js,mjs -r dotenv/config ./server.ts",
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc --project ./tsconfig.json"
+  },"engines": {
+    "node": "16.17.x"
   },
   "keywords": [],
   "author": "",
