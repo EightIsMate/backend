@@ -1,0 +1,14 @@
+{
+    "compilerOptions": {
+      "target": "es2016",
+      "module": "commonjs",
+      "esModuleInterop": true,
+      "resolveJsonModule": true,
+      "outDir": "./",
+      "strict": true,
+      "noImplicitAny": true,
+      "lib": ["ES2021.String"]
+    },
+    "include": ["./src/**/*", "server.ts"],
+    "exclude": ["node_modules"]
+  }
