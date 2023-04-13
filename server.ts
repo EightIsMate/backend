@@ -1,5 +1,6 @@
 import express, { Express } from 'express';
 import welcomeRouter from './src/routes/welcome'
+import positionsRouter from './src/routes/positions'
 import dotenv from 'dotenv';
 import bodyParser from "body-parser";
 import cors from "cors";
@@ -20,6 +21,9 @@ server.use(logger);
 
 
 server.use(welcomeRouter);
+server.use(positionsRouter);
+
+
 server.get("/", (req, res) => {
   res.send("nice");
 });
