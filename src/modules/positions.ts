@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import path from 'path';
-import { database } from '../../server';
+import { database } from './database_connection';
 
 
 // export const getMowerPosition = (req: Request, res: Response) => {

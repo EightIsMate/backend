@@ -1,12 +1,11 @@
 import express, { Express } from 'express';
 import welcomeRouter from './src/routes/welcome'
-import positionsRouter from './src/routes/positions'
+import {router as positionsRouter} from './src/routes/positions'
 import picuresRouter from './src/routes/pictures'
 import dotenv from 'dotenv';
 import bodyParser from "body-parser";
 import cors from "cors";
 import logger from './src/middleware/logger';
-import { Client } from 'pg';
 
 // export const database = require("knex")({
 //   client: "pg",
@@ -17,14 +16,7 @@ import { Client } from 'pg';
 //     database: process.env.DB_NAME,
 //   },
 // });
-export const database = new Client({
-  connectionString: process.env.DATABASE_URL,
-  ssl: {
-    rejectUnauthorized: false
-  }
-});
 
-database.connect();
 // export const database = require("knex")({
 //   client: 'postgresql',
 //   connection: process.env.DATABASE_URL,

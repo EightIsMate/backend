@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { v2 as cloudinary } from "cloudinary";
-import { database } from "../../server";
+import { database } from "./database_connection";
 
 // configure cloudinary
 cloudinary.config({
