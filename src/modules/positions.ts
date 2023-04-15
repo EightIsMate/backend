@@ -11,21 +11,7 @@ import { database } from '../../server';
 //     res.sendFile(fullfilepath)
 // }
 
-export const storeMowerPosition = (req: Request, res: Response) =>{
-    const position = {
-        position_horizontal: req.body.position_horizontal,
-        position_vertical: req.body.position_vertical,
-      };
-      
-      database("positions")
-        .insert(position)
-        .then(() => {
-          console.log("User inserted successfully");
-        })
-        .catch((err: any) => {
-          console.error(err);
-        })
-        .finally(() => {
-          database.destroy();
-        });
+export const position_storing = async (position_horizontal: string, position_vertical: string) => {
+      const id = await database.query(`INSERT INTO positions (position_horizontal, position_vertical) VALUES ('${position_horizontal}', '${position_vertical}') returning id;`);
+      return id.rows[0].id;
 }
