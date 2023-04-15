@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { v2 as cloudinary } from "cloudinary";
+import { database } from "../../server";
 
 // configure cloudinary
 cloudinary.config({
@@ -15,8 +16,9 @@ export const pictureStoring = async (req: Request, res: Response) => {
           // upload image to cloudinary
           const result = await cloudinary.uploader.upload(req.file.path);
           
+          const rows = await database.query(`INSERT INTO Images (img_link, positionid) VALUES ('${result.secure_url}', '${req.body.positionid}') returning id`);
           // send back image URL
-          res.status(200).json({ url: result.secure_url });
+          res.status(200).json({ url: result.secure_url, id: rows.rows[0].id });
       } else {
           res.status(400).send("img missing");
       }
