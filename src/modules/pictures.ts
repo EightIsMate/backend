@@ -15,6 +15,7 @@ export const pictureStoring = async (req: Request, res: Response) => {
   
           // upload image to cloudinary
           const result = await cloudinary.uploader.upload(req.file.path);
+          // const result = await cloudinary.uploader.upload(req.file.path, {public_id: ""}); // this can give the picture a name
           
           const rows = await database.query(`INSERT INTO Images (img_link, positionid) VALUES ('${result.secure_url}', '${req.body.positionid}') returning id`);
           // send back image URL
