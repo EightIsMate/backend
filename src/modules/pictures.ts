@@ -14,6 +14,7 @@ export const pictureStoring = async (req: Request, res: Response) => {
   
           // upload image to cloudinary
           const result = await cloudinary.uploader.upload(req.file.path);
+          // const result = await cloudinary.uploader.upload(req.file.path, {public_id: ""}); // this can give the picture a name
           
           // send back image URL
           res.status(200).json({ url: result.secure_url });
