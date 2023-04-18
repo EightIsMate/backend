@@ -1,9 +1,11 @@
 import { Router, Request, Response } from 'express';
-import { position_storing } from '../modules/positions';
+import { position_fetching, position_storing } from '../modules/positions';
+import console from 'console';
 
 
 
 const router : Router = Router();
+
 
 router.post('/positions', async (req: Request, res: Response) => {
     try {
@@ -21,5 +23,17 @@ router.post('/positions', async (req: Request, res: Response) => {
         res.status(500).send(error);
     }
 });
+
+router.get('/positions', async (req: Request, res: Response) => {
+    try{
+        console.log("Line 28, positions.ts/routes, get-position")
+        const data = await position_fetching();
+        res.status(200).send("router got data from module "+ data);
+    } catch(error){
+        console.log("Line 31, positions.ts/routes, get-positions")
+        console.log(error)
+        res.status(500).send(error)
+    }
+})
 
 export default router;

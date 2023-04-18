@@ -15,3 +15,10 @@ export const position_storing = async (position_horizontal: string, position_ver
       const id = await database.query(`INSERT INTO positions (position_horizontal, position_vertical) VALUES ('${position_horizontal}', '${position_vertical}') returning id;`);
       return id.rows[0].id;
 }
+
+export const position_fetching = async () => {
+      const data = await database.query('SELECT * FROM positions')
+      console.log("Line 21, positions.ts, modules, position_fetching")
+      console.log(data)
+      return data.rows;
+}
