@@ -17,8 +17,6 @@ export const position_storing = async (position_horizontal: string, position_ver
 }
 
 export const position_fetching = async () => {
-      const data = await database.query('SELECT * FROM positions')
-      console.log("Line 21, positions.ts, modules, position_fetching")
-      console.log(data)
+      const data = await database.query('SELECT * FROM positions ORDER BY timestamp DESC')
       return data.rows;
 }

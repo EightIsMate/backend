@@ -26,12 +26,9 @@ router.post('/positions', async (req: Request, res: Response) => {
 
 router.get('/positions', async (req: Request, res: Response) => {
     try{
-        console.log("Line 28, positions.ts/routes, get-position")
         const data = await position_fetching();
-        res.status(200).send("router got data from module "+ data);
+        res.status(200).json(data);
     } catch(error){
-        console.log("Line 31, positions.ts/routes, get-positions")
-        console.log(error)
         res.status(500).send(error)
     }
 })
