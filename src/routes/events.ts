@@ -47,7 +47,7 @@ router.post("/events", async (req: Request, res: Response) => {
 
 
         const db_resposnse = await event_storing(image_id_string, eventtype_id);
-        res.status(201).send(db_resposnse);
+        res.status(201).send({id: db_resposnse});
     } catch(err) {
         console.log(err);
         res.status(500).send(err);

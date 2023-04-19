@@ -19,7 +19,7 @@ export const pictureStoring = async (req: Request, res: Response) => {
           
           const rows = await database.query(`INSERT INTO Images (img_link, positionid) VALUES ('${result.secure_url}', '${req.body.positionid}') returning id`);
           // send back image URL
-          res.status(200).json({ url: result.secure_url, id: rows.rows[0].id });
+          res.status(201).json({ url: result.secure_url, id: rows.rows[0].id });
       } else {
           res.status(400).send("img missing");
       }
