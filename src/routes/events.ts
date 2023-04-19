@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { Request, Response } from 'express';
-import { event_storing } from "../modules/events";
+import { event_fetching, event_storing } from "../modules/events";
 import { UUID } from "crypto";
 
 const router : Router = Router();
@@ -53,5 +53,7 @@ router.post("/events", async (req: Request, res: Response) => {
         res.status(500).send(err);
     }
 });
+
+router.get("/events", event_fetching);
 
 export default router;
