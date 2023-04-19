@@ -25,6 +25,6 @@ export const pictureStoring = async (req: Request, res: Response) => {
       }
     } catch (error) {
       console.error(error);
-      res.status(500).send("Error uploading image to Cloudinary");
+      res.status(500).send(`Error uploading image to Cloudinary: ${error}`);
     }
 }
