@@ -7,7 +7,7 @@ const upload = multer({ dest: "uploads/" });
 const router : Router = Router();
 
 // create GET request route for fetching images
-router.get("/upload", picture_fetching);
+router.get("/image", picture_fetching);
 
 // create POST request route for uploading images
 router.post("/upload", upload.single("file"), picture_storing);
