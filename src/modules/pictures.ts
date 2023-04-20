@@ -9,10 +9,9 @@ cloudinary.config({
     api_secret: process.env.API_SECRET
 });
 
-export const pictureStoring = async (req: Request, res: Response) => {
+export const picture_storing = async (req: Request, res: Response) => {
     try {
       if (req.file) {
-  
           // upload image to cloudinary
           const result = await cloudinary.uploader.upload(req.file.path);
           
@@ -26,4 +25,23 @@ export const pictureStoring = async (req: Request, res: Response) => {
       console.error(error);
       res.status(500).send("Error uploading image to Cloudinary");
     }
+}
+
+export const picture_fetching = async (req: Request, res: Response) => {
+  
+    const id = req.params.positionid
+
+    const rows = await database.query('SELECT * FROM Images');
+    
+    res.status(200).json(rows.rows[0])
+    
+    /*
+    await database.query('SELECT * FROM Images WHERE positionid = $1', [id], (error, results) => {
+      if (error) {
+        res.status(400).send("unable to fetch image");
+      } else{
+        res.status(200).json(results)
+      }
+    })
+    */
 }
