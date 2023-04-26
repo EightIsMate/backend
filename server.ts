@@ -40,7 +40,7 @@ server.use(logger);
 
 
 server.use(welcomeRouter);
-server.use(positionsRouter);
+server.use('/positions', positionsRouter);
 server.use(picuresRouter);
 server.use(eventRouter);
 
