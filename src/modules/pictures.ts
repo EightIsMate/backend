@@ -29,20 +29,16 @@ export const picture_storing = async (req: Request, res: Response) => {
 }
 
 export const picture_fetching = async (req: Request, res: Response) => {
-  
-    const id = req.params.positionid
-
-    const rows = await database.query('SELECT * FROM Images');
-    
-    res.status(200).json(rows.rows[0])
-    
-    /*
-    await database.query('SELECT * FROM Images WHERE positionid = $1', [id], (error, results) => {
-      if (error) {
-        res.status(400).send("unable to fetch image");
-      } else{
-        res.status(200).json(results)
-      }
-    })
-    */
+  try{
+    const rows = await database.query('SELECT * FROM Images')
+    if(rows.rowCount > 0){
+      //console.log("image link: ", rows.rows[0].img_link)
+      res.status(200).json(rows.rows[0])
+    } else{
+      res.status(301).send("No, images to fetch in the DB!")
+    }
+  } catch(error){
+    console.error(error)
+    res.status(500).send("Error fetching image from Database")
+  }
 }
