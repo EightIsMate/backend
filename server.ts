@@ -1,12 +1,12 @@
 import express, { Express } from 'express';
 import welcomeRouter from './src/routes/welcome'
-import positionsRouter from './src/routes/positions'
+import {router as positionsRouter} from './src/routes/positions'
 import picuresRouter from './src/routes/pictures'
+import eventRouter from './src/routes/events'
 import dotenv from 'dotenv';
 import bodyParser from "body-parser";
 import cors from "cors";
 import logger from './src/middleware/logger';
-import { Client } from 'pg';
 
 // export const database = require("knex")({
 //   client: "pg",
@@ -17,14 +17,7 @@ import { Client } from 'pg';
 //     database: process.env.DB_NAME,
 //   },
 // });
-export const database = new Client({
-  connectionString: process.env.DATABASE_URL,
-  ssl: {
-    rejectUnauthorized: false
-  }
-});
 
-database.connect();
 // export const database = require("knex")({
 //   client: 'postgresql',
 //   connection: process.env.DATABASE_URL,
@@ -47,8 +40,9 @@ server.use(logger);
 
 
 server.use(welcomeRouter);
-server.use(positionsRouter);
+server.use('/positions', positionsRouter);
 server.use(picuresRouter);
+server.use(eventRouter);
 
 server.get("/", (req, res) => {
   res.send("nice");
