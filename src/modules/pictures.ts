@@ -32,8 +32,8 @@ export const picture_fetching = async (req: Request, res: Response) => {
   try{
     const rows = await database.query('SELECT * FROM Images')
     if(rows.rowCount > 0){
-      //console.log("image link: ", rows.rows[0].img_link)
-      res.status(200).json(rows.rows[0])
+      //console.log("image link0: ", rows.rows[0].img_link)
+      res.status(200).json(rows.rows[rows.rowCount - 1])
     } else{
       res.status(301).send("No, images to fetch in the DB!")
     }
