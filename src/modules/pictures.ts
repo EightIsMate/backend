@@ -35,7 +35,23 @@ export const picture_fetching = async (req: Request, res: Response) => {
       //console.log("image link0: ", rows.rows[0].img_link)
       res.status(200).json(rows.rows[rows.rowCount - 1])
     } else{
-      res.status(301).send("No, images to fetch in the DB!")
+      res.status(204).send("No, images to fetch in the DB!")
+    }
+  } catch(error){
+    console.error(error)
+    res.status(500).send("Error fetching image from Database")
+  }
+}
+
+export const get_picture_by_id = async (req: Request, res: Response) => {
+  var id = req.params.id
+  try{
+    const rows = await database.query('SELECT * FROM Images WHERE id = $1', [id])
+    //console.log("Line 50, link = ", rows)
+    if(rows){
+      res.status(200).json(rows.rows[0])
+    } else{
+      res.status(204).send("No, images to fetch in the DB!")
     }
   } catch(error){
     console.error(error)
