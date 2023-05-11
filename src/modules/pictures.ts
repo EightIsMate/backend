@@ -30,26 +30,10 @@ export const picture_storing = async (req: Request, res: Response) => {
 
 export const picture_fetching = async (req: Request, res: Response) => {
   try{
-    const picture_id = req.query.image_id
-    if (!picture_id) {
-      res.status(400).send("missing image_id")
-    }
-    const rows = await database.query(`SELECT * FROM Images i LEFT JOIN labels l ON l.imageid = i.id where i.id = '${picture_id}'`)
+    const rows = await database.query('SELECT * FROM Images')
     if(rows.rowCount > 0){
       //console.log("image link0: ", rows.rows[0].img_link)
-      let data = {
-        img_link: rows.rows[0].img_link,
-        id: picture_id,
-        position_id: rows.rows[0].position_id,
-        labels: [] as string[]
-      }
-      for (let row of rows.rows) {
-        if (!row.label) {
-            continue
-        }
-        data.labels.push(row.label)
-      }
-      res.status(200).json(data)
+      res.status(200).json(rows.rows[rows.rowCount - 1])
     } else{
       res.status(204).send("No, images to fetch in the DB!")
     }
@@ -62,11 +46,23 @@ export const picture_fetching = async (req: Request, res: Response) => {
 export const get_picture_by_id = async (req: Request, res: Response) => {
   var id = req.params.id
   try{
-    const rows = await database.query('SELECT * FROM Images WHERE id = $1', [id])
+    const rows = await database.query('SELECT img_link, i.positionid, label FROM Images i LEFT JOIN  labels l ON l.imageid = i.id WHERE i.id = $1', [id])
     //console.log("Line 50, link = ", rows)
-    if(rows){
-      res.status(200).json(rows.rows[0])
-    } else{
+    if(rows.rowCount > 0) {
+      let data = {
+        img_link: rows.rows[0].img_link,
+        id: id,
+        position_id: rows.rows[0].position_id,
+        labels: [] as string[]
+      }
+      for (let row of rows.rows) {
+        if (!row.label) {
+            continue
+        }
+        data.labels.push(row.label)
+    }
+    res.status(200).json(data)
+  } else{
       res.status(204).send("No, images to fetch in the DB!")
     }
   } catch(error){
