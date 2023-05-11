@@ -52,7 +52,7 @@ export const get_picture_by_id = async (req: Request, res: Response) => {
       let data = {
         img_link: rows.rows[0].img_link,
         id: id,
-        position_id: rows.rows[0].position_id,
+        position_id: rows.rows[0].positionid,
         labels: [] as string[]
       }
       for (let row of rows.rows) {
