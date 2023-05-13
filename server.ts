@@ -3,6 +3,7 @@ import welcomeRouter from './src/routes/welcome'
 import {router as positionsRouter} from './src/routes/positions'
 import picuresRouter from './src/routes/pictures'
 import eventRouter from './src/routes/events'
+import visionRouter from './src/routes/vision'
 import dotenv from 'dotenv';
 import bodyParser from "body-parser";
 import cors from "cors";
@@ -43,6 +44,8 @@ server.use(welcomeRouter);
 server.use('/positions', positionsRouter);
 server.use(picuresRouter);
 server.use(eventRouter);
+
+server.use(visionRouter);
 
 server.get("/", (req, res) => {
   res.send("nice");
