@@ -57,11 +57,33 @@ export const get_picture_by_id = async (req: Request, res: Response) => {
   var id = req.params.id
   console.log("Line 48, pictures.ts modules, id = ", id)
   try{
+  /* added by meles
+  9-backend-classifying-images-by-google-api
     const rows = await database.query('SELECT * FROM Images WHERE id = $1', [id])
     if(rows){
       return rows.rows[0]
     } else{
       return "No image in the DB"
+      */
+    const rows = await database.query('SELECT img_link, i.positionid, label FROM Images i LEFT JOIN  labels l ON l.imageid = i.id WHERE i.id = $1', [id])
+    //console.log("Line 50, link = ", rows)
+    if(rows.rowCount > 0) {
+      let data = {
+        img_link: rows.rows[0].img_link,
+        id: id,
+        position_id: rows.rows[0].positionid,
+        labels: [] as string[]
+      }
+      for (let row of rows.rows) {
+        if (!row.label) {
+            continue
+        }
+        data.labels.push(row.label)
+    }
+    res.status(200).json(data)
+  } else{
+      res.status(204).send("No, images to fetch in the DB!")
+
     }
   } catch(error){
     console.error(error)
