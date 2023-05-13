@@ -24,14 +24,14 @@ export const annotate_image = async(req: Request, res: Response, imageLink: Stri
     try {
         const filePath = imageLink;
         //console.log("Line 32, vision.ts module, link = ", imageLink)
-        const imgSource = 'C:\\Users\\meles\\Desktop\\blindfolded driver.png'
+        //const imgSource = 'C:\\Users\\...\\image.png'
       if (filePath) {
             const client = new ImageAnnotatorClient(CONFIG);
         
             // Make API request to annotate the image
             const [result] = await client.annotateImage({
-                //image: {source: { imageUri: filePath } },
-                image: {source: { filename: imgSource } },
+                image: {source: { imageUri: filePath } },
+               // image: {source: { filename: imgSource } },
                 features: [{ type: 'LABEL_DETECTION' }]
             });
             
@@ -43,7 +43,7 @@ export const annotate_image = async(req: Request, res: Response, imageLink: Stri
             //console.log("Line 72, vision.ts, modules. Items: ", items) 
             return items   
 
-            /*
+            /*      labels of different images
                   Shirt, Helmet, Gesture, Sports gear, Finger, Eyewear, Sleeve, Tie, Dress shirt, Thumb,
                   stress.png = 11
                   Colorfulness, Rectangle, Font, Slope, Parallel, Pattern, Number, Screenshot, Magenta, Electric blue,
