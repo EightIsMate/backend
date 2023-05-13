@@ -1,6 +1,6 @@
 
 
-import { get_picture_by_id } from "../modules/pictures"
+import { get_picture_link } from "../modules/pictures"
 import { Router, Request, Response } from 'express';
 import { annotate_image } from "../modules/vision"
 
@@ -17,7 +17,7 @@ const router : Router = Router();
  */
 const vision_by_id = async (req: Request, res: Response) => {
     try{
-        const data = await get_picture_by_id(req, res);
+        const data = await get_picture_link(req, res);
         const img_link = data.img_link
         //console.log("Line 21, vision.ts, routes. img link = ", img_link)
         if(img_link != ""){
