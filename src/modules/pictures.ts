@@ -43,9 +43,28 @@ export const picture_fetching = async (req: Request, res: Response) => {
   }
 }
 
+/**
+ * This function retrieves an image from a database based on its ID.
+ * @param {Request} req - Request object, which contains information about the incoming HTTP request.
+ * @param {Response} res - Response is an object that represents the HTTP response that an Express app
+ * sends when it gets an HTTP request. It is used to send the response back to the client with data,
+ * status codes, headers, etc.
+ * @returns If the query is successful and there is at least one row returned, the function will return
+ * the first row of the result set. If there are no rows returned, the function will return the string
+ * "No image in the DB". If there is an error, the function will return the error object.
+ */
 export const get_picture_by_id = async (req: Request, res: Response) => {
   var id = req.params.id
+  console.log("Line 48, pictures.ts modules, id = ", id)
   try{
+  /* added by meles
+  9-backend-classifying-images-by-google-api
+    const rows = await database.query('SELECT * FROM Images WHERE id = $1', [id])
+    if(rows){
+      return rows.rows[0]
+    } else{
+      return "No image in the DB"
+      */
     const rows = await database.query('SELECT img_link, i.positionid, label FROM Images i LEFT JOIN  labels l ON l.imageid = i.id WHERE i.id = $1', [id])
     //console.log("Line 50, link = ", rows)
     if(rows.rowCount > 0) {
@@ -64,9 +83,10 @@ export const get_picture_by_id = async (req: Request, res: Response) => {
     res.status(200).json(data)
   } else{
       res.status(204).send("No, images to fetch in the DB!")
+
     }
   } catch(error){
     console.error(error)
-    res.status(500).send("Error fetching image from Database")
+    return error
   }
 }
