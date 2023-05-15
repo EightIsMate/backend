@@ -2,7 +2,6 @@
 import { Request, Response } from "express";
 const { ImageAnnotatorClient } = require('@google-cloud/vision');
 
-
 // configure client
 const CONFIG = {
   credentials: {
@@ -20,12 +19,12 @@ const CONFIG = {
  * @returns a string of comma-separated labels that were detected in the image.
  */
 
-export const annotate_image = async(req: Request, res: Response, imageLink: String) => {
-    try {
+export const annotate_image = async(imageLink: String) => {
         const filePath = imageLink;
         //console.log("Line 32, vision.ts module, link = ", imageLink)
         //const imgSource = 'C:\\Users\\...\\image.png'
-      if (filePath) {
+        var items: any[] = []
+        if (filePath) {
             const client = new ImageAnnotatorClient(CONFIG);
         
             // Make API request to annotate the image
@@ -36,7 +35,6 @@ export const annotate_image = async(req: Request, res: Response, imageLink: Stri
             });
             
             const labels = result.labelAnnotations;
-            var items: any[] = []
             labels.forEach((label: { description: any; }) => 
                 items.push(label.description)
             );
@@ -52,10 +50,7 @@ export const annotate_image = async(req: Request, res: Response, imageLink: Stri
                   "Car, Vehicle, Motor vehicle, Automotive design, Automotive exterior, Vehicle door, Personal luxury car, Steering wheel, Automotive mirror, Eyewear, "
             */
         }
-    } catch (error) {
-    console.error('Line 62 vision.ts modules, caught Error:', error);
-    return error
-    }
+        return items
   }
 
 

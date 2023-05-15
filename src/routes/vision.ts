@@ -22,7 +22,7 @@ const vision_by_id = async (req: Request, res: Response) => {
         //console.log("Line 21, vision.ts, routes. img link = ", img_link)
         if(img_link != ""){
             try{
-            const anotData = await annotate_image(req, res, img_link);
+            const anotData = await annotate_image(img_link);
             //console.log("Line 24, vision by id vision.ts, routes, data = ", anotData)
             res.status(200).json(anotData);
             }
