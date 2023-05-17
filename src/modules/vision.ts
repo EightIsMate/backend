@@ -38,17 +38,7 @@ export const annotate_image = async(imageLink: String) => {
             labels.forEach((label: { description: any; }) => 
                 items.push(label.description)
             );
-            //console.log("Line 72, vision.ts, modules. Items: ", items) 
             return items   
-
-            /*      labels of different images
-                  Shirt, Helmet, Gesture, Sports gear, Finger, Eyewear, Sleeve, Tie, Dress shirt, Thumb,
-                  stress.png = 11
-                  Colorfulness, Rectangle, Font, Slope, Parallel, Pattern, Number, Screenshot, Magenta, Electric blue,
-                    periodic table = 10
-                  blindDriver =10
-                  "Car, Vehicle, Motor vehicle, Automotive design, Automotive exterior, Vehicle door, Personal luxury car, Steering wheel, Automotive mirror, Eyewear, "
-            */
         }
         return items
   }

@@ -4,7 +4,12 @@ import path from 'path';
 import { database } from './database_connection';
 
 
-
+export const image_position_storing =async (position_horizontal: string, position_vertical: string, position_type: string) => {
+      console.log("Line 8, positions.ts, modules, image_position_storing. horizontal: ", position_horizontal, " vertical: ", position_vertical, " type: ", position_type)
+      const id = await database.query(`INSERT INTO positions (position_horizontal, position_vertical, position_type_id) VALUES ('${position_horizontal}', '${position_vertical}', (SELECT id FROM position_type WHERE name = '${position_type}')) returning id;`);
+      console.log("Line 10, positions.ts, modules, image_position_storing. position id: ", id.rows[0])
+      return id.rows[0].id;
+}
 
 export const position_storing = async (position_horizontal: string, position_vertical: string, position_type: string) => {
       const id = await database.query(`INSERT INTO positions (position_horizontal, position_vertical, position_type_id) VALUES ('${position_horizontal}', '${position_vertical}', (SELECT id FROM position_type WHERE name = '${position_type}')) returning id;`);
