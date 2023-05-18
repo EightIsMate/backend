@@ -58,11 +58,11 @@ const _fetching = async (req: Request, res: Response, type: string) => {
 }
 
 router.post('/mower', async (req: Request, res: Response) => {
-       await _storing(req, res, 'mower')
+       await _storing(req, res, 'mover')
 });
 
 router.get('/mower', async (req: Request, res: Response) => {
-    await _fetching(req, res, 'mower')
+    await _fetching(req, res, 'mover')
 });
 
 router.post('/obstacle', async (req: Request, res: Response) => {
