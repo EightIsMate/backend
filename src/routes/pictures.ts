@@ -1,5 +1,5 @@
 import multer from "multer";
-import { picture_storing, picture_fetching, get_picture_by_id } from "../modules/pictures"
+import { picture_storing, picture_position_storing, picture_fetching, get_picture_by_id } from "../modules/pictures"
 import { Router, Request, Response } from 'express';
 
 // configure multer for file upload
@@ -11,6 +11,9 @@ router.get("/image", picture_fetching);
 
 // create POST request route for uploading images
 router.post("/upload", upload.single("file"), picture_storing);
+
+// create POST request route for uploading images and Positions
+router.post("/image/store", upload.single("file"), picture_position_storing);
 
 
 /**
