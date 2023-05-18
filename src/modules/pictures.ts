@@ -66,17 +66,16 @@ export const picture_storing = async (req: Request, res: Response) => {
  * code of the response, "json" to send a JSON response, and "send" to send a plain
  */
 export const picture_position_storing = async (req: Request, res: Response) => {
-  console.log("Line 50, picture storing, pictures.ts, modules. reg: ", req.body)
+  //console.log("Line 69, picture storing, pictures.ts, modules. horizontal: ", req.body.position_horizontal)
   try {
     if (req.file) {
-      const position_id = await image_position_storing(req.body.horizontal, req.body.vertical, "mower")
-      console.log("Line 59, picture storing, pictures.ts, modules. pos_id: ", position_id)
+      const position_id = await image_position_storing(req.body.position_horizontal, req.body.position_vertical, "mover")
+      //console.log("Line 59, picture storing, pictures.ts, modules. pos_id: ", position_id)
       // upload image to cloudinary
       const result = await cloudinary.uploader.upload(req.file.path);
       //create the image database insert
       const rows = await database.query(`INSERT INTO Images (img_link, positionid) VALUES ('${result.secure_url}', '${position_id}') returning id`);
-      console.log("Line 59, picture storing, pictures.ts, modules. rows: ", rows.rows[0])
-
+      
       //create the labeling for the image
       const labeling = await annotate_image(result.secure_url)
       const image_id = rows.rows[0].id
@@ -84,7 +83,6 @@ export const picture_position_storing = async (req: Request, res: Response) => {
       labeling.forEach( (element, i) => {
         query += `( '${image_id}' , '${element}')` + (labeling.length > i + 1 ? ", " : ";")
       });
-      console.log("Line 37,picture storing, pictures.ts, modules. query", query)
       if (query.endsWith(");")) {
         await database.query(query);
       }
