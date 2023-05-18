@@ -9,21 +9,6 @@ import bodyParser from "body-parser";
 import cors from "cors";
 import logger from './src/middleware/logger';
 
-// export const database = require("knex")({
-//   client: "pg",
-//   connection: {
-//     host: process.env.DB_HOST,
-//     user: process.env.DB_USERNAME,
-//     password: process.env.DB_PASSWORD,
-//     database: process.env.DB_NAME,
-//   },
-// });
-
-// export const database = require("knex")({
-//   client: 'postgresql',
-//   connection: process.env.DATABASE_URL,
-//   searchPath: ['public'],
-// });
 
 
 dotenv.config();
@@ -44,7 +29,6 @@ server.use(welcomeRouter);
 server.use('/positions', positionsRouter);
 server.use(picuresRouter);
 server.use(eventRouter);
-
 server.use(visionRouter);
 
 server.get("/", (req, res) => {
