@@ -1,5 +1,3 @@
-
-
 import { get_picture_link } from "../modules/pictures"
 import { Router, Request, Response } from 'express';
 import { annotate_image } from "../modules/vision"

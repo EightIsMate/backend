@@ -1,5 +1,4 @@
-import { Router } from "express";
-import { Request, Response } from 'express';
+import { Router, Request, Response } from 'express';
 import { event_fetching, event_storing } from "../modules/events";
 import { UUID } from "crypto";
 
@@ -11,7 +10,13 @@ interface Event {
     request_id: number
   }
 
-// create POST request route for uploading images
+  
+/**
+ This code block defines a POST request route for uploading events. It takes in the request and
+response objects as parameters, where request has image_id and event_code in its body. Then the function
+event_storing is called with the parametes and response is sent back to the requesting body. 
+It uses the Express Router to define the route. 
+*/
 router.post("/events", async (req: Request, res: Response) => {
     try {
         let eventtype_id: null | UUID = null;
@@ -44,8 +49,6 @@ router.post("/events", async (req: Request, res: Response) => {
         }else {
             image_id_string = `'${image_id}'`;
         }
-
-
         const db_resposnse = await event_storing(image_id_string, eventtype_id);
         res.status(201).send({id: db_resposnse});
     } catch(err) {
@@ -54,6 +57,12 @@ router.post("/events", async (req: Request, res: Response) => {
     }
 });
 
+/**
+ This code block defines a GET request route for fetching events. It uses the Express Router to
+define the route and calls the `event_fetching` function to handle the request. When a GET request
+is made to the "/events" endpoint, the `event_fetching` function is called to retrieve the events
+from the database and return them as a response. 
+*/
 router.get("/events", event_fetching);
 
 export default router;
