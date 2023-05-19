@@ -69,7 +69,7 @@ export const picture_position_storing = async (req: Request, res: Response) => {
   //console.log("Line 69, picture storing, pictures.ts, modules. horizontal: ", req.body.position_horizontal)
   try {
     if (req.file) {
-      const position_id = await image_position_storing(req.body.position_horizontal, req.body.position_vertical, "mover")
+      const position_id = await image_position_storing(req.body.position_horizontal, req.body.position_vertical, "obstacle")
       //console.log("Line 59, picture storing, pictures.ts, modules. pos_id: ", position_id)
       // upload image to cloudinary
       const result = await cloudinary.uploader.upload(req.file.path);
