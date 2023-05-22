@@ -53,7 +53,6 @@ router.post("/image/store", check_request, upload.single("file"), picture_positi
 const fetch_image = async (req: Request, res: Response) => {
     try{
         const data = await get_picture_by_id(req, res);
-        res.status(200).json(data);
     } catch(error){
         res.status(500).send(error)
     }
