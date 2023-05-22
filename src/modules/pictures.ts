@@ -5,6 +5,13 @@ import { annotate_image } from "./vision";
 
 import { image_position_storing } from "./positions"
 import { escapeSQL } from "./authentification";
+import { event_storing } from "./events";
+
+export const eventtype_ids = {
+  'object_detection': '100eebce-4e6e-42df-bfad-f180d3207e3e',
+  'moving': '1244e40b-441c-4f7c-b527-ba75e4e4aaf0',
+  'stopped': '4786f1a5-2351-468a-9202-7c85e9194459'
+};
 
 // configure cloudinary
 cloudinary.config({
@@ -36,6 +43,11 @@ export const picture_storing = async (req: Request, res: Response) => {
       //create the labeling for the image
       const labeling = await annotate_image(result.secure_url)
       const image_id = rows.rows[0].id
+
+      await event_storing("null", eventtype_ids.stopped)
+      await event_storing(image_id, eventtype_ids.object_detection)
+      await event_storing("null", eventtype_ids.moving)
+
       let query = "INSERT INTO labels(imageid, label) VALUES "
       labeling.forEach((element, i) => {
         query += `( '${escapeSQL(image_id)}' , '${escapeSQL(element)}')` + (labeling.length > i + 1 ? ", " : ";")
@@ -80,6 +92,12 @@ export const picture_position_storing = async (req: Request, res: Response) => {
       //create the labeling for the image
       const labeling = await annotate_image(result.secure_url)
       const image_id = rows.rows[0].id
+      
+      await event_storing("null", eventtype_ids.stopped)
+      await event_storing(image_id, eventtype_ids.object_detection)
+      await event_storing("null", eventtype_ids.moving)
+
+
       let query = "INSERT INTO labels(imageid, label) VALUES "
       labeling.forEach( (element, i) => {
         query += `( '${image_id}' , '${element}')` + (labeling.length > i + 1 ? ", " : ";")

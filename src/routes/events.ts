@@ -21,14 +21,15 @@ router.post("/events", check_request, async (req: Request, res: Response) => {
     try {
         let eventtype_id: null | UUID = null;
         let image_id_string;
+        
+        let image_id = req.body.image_id;
+        let event_code = req.body.event_code;
+
         const eventtype_ids : Array<Event>= [
             {name: 'object_detection', id: '100eebce-4e6e-42df-bfad-f180d3207e3e', request_id: 1020},
             {name: 'moving', id: '1244e40b-441c-4f7c-b527-ba75e4e4aaf0', request_id: 1000}, 
             {name: 'stopped', id: '4786f1a5-2351-468a-9202-7c85e9194459', request_id: 1040}
         ];
-        let image_id = req.body.image_id;
-        let event_code = req.body.event_code;
-
         if (event_code == undefined) {
             res.status(400).send("'event_code' not defined");
             return;

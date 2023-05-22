@@ -17,8 +17,8 @@ import { escapeSQL } from './authentification';
  * specified `image_id` and `eventtype_id` values, and then returns the `id` of the inserted row. The
  * returned `id` is accessed from the `id`.
  */
-export const event_storing = async (image_id: string, eventtype_id: UUID) => {
-    const id = await database.query(`INSERT INTO events (image_id, eventtype_id) VALUES ('${escapeSQL(image_id)}', '${escapeSQL(eventtype_id)}') returning id;`);
+export const event_storing = async (image_id: string, eventtype_id: string) => {
+    const id = await database.query(`INSERT INTO events (image_id, eventtype_id) VALUES (${escapeSQL(image_id)}, '${escapeSQL(eventtype_id)}') returning id;`);
     return id.rows[0].id;
 }
 

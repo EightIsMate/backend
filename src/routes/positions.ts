@@ -2,6 +2,8 @@ import { Router, Request, Response } from 'express';
 import { position_fetching, position_storing } from '../modules/positions';
 import console from 'console';
 import { check_request } from '../modules/authentification';
+import { eventtype_ids } from '../modules/pictures';
+import { event_storing } from '../modules/events';
 
 
 
@@ -27,6 +29,11 @@ const _storing = async (req: Request, res: Response, type: string) => {
         if (position_horizontal == null || position_vertical == null) {
             res.status(400).send(`${position_horizontal == null ? "'position_horizontal'" : "'position_vertical'"} positions are missing`);
             return;
+        }
+        const data = await position_fetching("mover")
+        console.log(data)
+        if (data.length == 0) {
+            await event_storing("null", eventtype_ids.moving)
         }
         const id = await position_storing(position_horizontal, position_vertical, type);
         res.status(201).send({id: id});
