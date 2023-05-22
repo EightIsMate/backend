@@ -1,5 +1,3 @@
-
-import { Request, Response } from "express";
 const { ImageAnnotatorClient } = require('@google-cloud/vision');
 
 // configure client
@@ -21,16 +19,12 @@ const CONFIG = {
 
 export const annotate_image = async(imageLink: String) => {
         const filePath = imageLink;
-        //console.log("Line 32, vision.ts module, link = ", imageLink)
-        //const imgSource = 'C:\\Users\\...\\image.png'
         var items: any[] = []
         if (filePath) {
             const client = new ImageAnnotatorClient(CONFIG);
-        
             // Make API request to annotate the image
             const [result] = await client.annotateImage({
                 image: {source: { imageUri: filePath } },
-               // image: {source: { filename: imgSource } },
                 features: [{ type: 'LABEL_DETECTION' }]
             });
             
