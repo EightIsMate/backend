@@ -1,6 +1,7 @@
 import { Router, Request, Response } from 'express';
 import { position_fetching, position_storing } from '../modules/positions';
 import console from 'console';
+import { check_request } from '../modules/authentification';
 
 
 
@@ -63,7 +64,7 @@ objects, as well as the string 'mover'. The `_storing` function is responsible f
 horizontal and vertical positions of an object and returning an ID. Once the `_storing` function has
 completed, the response is sent back to the client with a status code of 201 and a JSON object
 containing the ID. */
-router.post('/mower', async (req: Request, res: Response) => {
+router.post('/mower', check_request, async (req: Request, res: Response) => {
        await _storing(req, res, 'mover')
 });
 
@@ -73,7 +74,7 @@ objects, as well as the string 'mover'. The `_fetching` function is responsible 
 from a position and sending a response with the fetched data or an error status code. Once the
 `_fetching` function has completed, the response is sent back to the client with a status code of
 200 and a JSON object containing the fetched data. */
-router.get('/mower', async (req: Request, res: Response) => {
+router.get('/mower', check_request, async (req: Request, res: Response) => {
     await _fetching(req, res, 'mover')
 });
 
@@ -83,7 +84,7 @@ objects, as well as the string 'obstacle'. The `_storing` function is responsibl
 horizontal and vertical positions of an obstacle and returning an ID. Once the `_storing` function
 has completed, the response is sent back to the client with a status code of 201 and a JSON object
 containing the ID. */
-router.post('/obstacle', async (req: Request, res: Response) => {
+router.post('/obstacle', check_request, async (req: Request, res: Response) => {
     await _storing(req, res, 'obstacle')
 });
 
@@ -93,7 +94,8 @@ objects, as well as the string 'obstacle'. The `_fetching` function is responsib
 from a position and sending a response with the fetched data or an error status code. Once the
 `_fetching` function has completed, the response is sent back to the client with a status code of
 200 and a JSON object containing the fetched data. */
-router.get('/obstacle', async (req: Request, res: Response) => {
+router.get('/obstacle', check_request, async (req: Request, res: Response) => {
+
  await _fetching(req, res, 'obstacle')
 });
 

@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { database } from './database_connection';
 import { UUID } from 'crypto';
-
+import { escapeSQL } from './authentification';
 
 
 /**
@@ -18,7 +18,7 @@ import { UUID } from 'crypto';
  * returned `id` is accessed from the `id`.
  */
 export const event_storing = async (image_id: string, eventtype_id: UUID) => {
-    const id = await database.query(`INSERT INTO events (image_id, eventtype_id) VALUES (${image_id}, '${eventtype_id}') returning id;`);
+    const id = await database.query(`INSERT INTO events (image_id, eventtype_id) VALUES ('${escapeSQL(image_id)}', '${escapeSQL(eventtype_id)}') returning id;`);
     return id.rows[0].id;
 }
 

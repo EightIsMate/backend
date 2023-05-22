@@ -4,6 +4,7 @@ import { database } from "./database_connection";
 import { annotate_image } from "./vision";
 
 import { image_position_storing } from "./positions"
+import { escapeSQL } from "./authentification";
 
 // configure cloudinary
 cloudinary.config({
@@ -30,14 +31,14 @@ export const picture_storing = async (req: Request, res: Response) => {
       // const result = await cloudinary.uploader.upload(req.file.path, {public_id: ""}); // this can give the picture a name
 
       //create the image database insert
-      const rows = await database.query(`INSERT INTO Images (img_link, positionid) VALUES ('${result.secure_url}', '${req.body.positionid}') returning id`);
+      const rows = await database.query(`INSERT INTO Images (img_link, positionid) VALUES ('${escapeSQL(result.secure_url)}', '${escapeSQL(req.body.positionid)}') returning id`);
 
       //create the labeling for the image
       const labeling = await annotate_image(result.secure_url)
       const image_id = rows.rows[0].id
       let query = "INSERT INTO labels(imageid, label) VALUES "
       labeling.forEach((element, i) => {
-        query += `( '${image_id}' , '${element}')` + (labeling.length > i + 1 ? ", " : ";")
+        query += `( '${escapeSQL(image_id)}' , '${escapeSQL(element)}')` + (labeling.length > i + 1 ? ", " : ";")
       });
       console.log(query)
       if (query.endsWith(");")) {

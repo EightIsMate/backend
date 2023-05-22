@@ -1,6 +1,7 @@
 import { get_picture_link } from "../modules/pictures"
 import { Router, Request, Response } from 'express';
 import { annotate_image } from "../modules/vision"
+import { check_request } from "../modules/authentification";
 
 const router : Router = Router();
 
@@ -47,7 +48,7 @@ a GET request to this route, the function `vision_by_id` is called with the requ
 objects as arguments. This function retrieves the image link from the request, annotates the image
 using Google Cloud Vision API, and sends the annotated data in the response. The `await` keyword is
 used to wait for the asynchronous `vision_by_id` function to complete before sending the response. */
-router.get('/vision/:id', async (req: Request, res: Response) => {
+router.get('/vision/:id', check_request, async (req: Request, res: Response) => {
     await vision_by_id(req, res)
 });
 

@@ -1,4 +1,5 @@
 
+import { escapeSQL } from './authentification';
 import { database } from './database_connection';
 
 
@@ -13,7 +14,7 @@ import { database } from './database_connection';
  * @returns the id of the newly inserted position record in the database, which is a UUID in string.
  */
 export const image_position_storing =async (position_horizontal: string, position_vertical: string, position_type: string) => {
-      const id = await database.query(`INSERT INTO positions (position_horizontal, position_vertical, position_type_id) VALUES ('${position_horizontal}', '${position_vertical}', (SELECT id FROM position_type WHERE name = '${position_type}')) returning id;`);
+      const id = await database.query(`INSERT INTO positions (position_horizontal, position_vertical, position_type_id) VALUES ('${escapeSQL(position_horizontal)}', '${escapeSQL(position_vertical)}', (SELECT id FROM position_type WHERE name = '${escapeSQL(position_type)}')) returning id;`);
       //console.log("Line 10, positions.ts, modules, image_position_storing. position id: ", id.rows[0])
       return id.rows[0].id;
 }
@@ -30,7 +31,7 @@ export const image_position_storing =async (position_horizontal: string, positio
  * `positions` table, which is a UUID.
  */
 export const position_storing = async (position_horizontal: string, position_vertical: string, position_type: string) => {
-      const id = await database.query(`INSERT INTO positions (position_horizontal, position_vertical, position_type_id) VALUES ('${position_horizontal}', '${position_vertical}', (SELECT id FROM position_type WHERE name = '${position_type}')) returning id;`);
+      const id = await database.query(`INSERT INTO positions (position_horizontal, position_vertical, position_type_id) VALUES ('${escapeSQL(position_horizontal)}', '${escapeSQL(position_vertical)}', (SELECT id FROM position_type WHERE name = '${position_type}')) returning id;`);
       return id.rows[0].id;
 }
 
@@ -46,6 +47,6 @@ export const position_storing = async (position_horizontal: string, position_ver
  * order. Return values consist of list with position_horizontal, position_vertical, timestamp, id, position_type_id, and name.
  */
 export const position_fetching = async (type: string) => {
-      const data = await database.query(`SELECT * FROM positions p JOIN position_type pt on p.position_type_id = pt.id WHERE pt.name = '${type}' ORDER BY timestamp DESC`)
+      const data = await database.query(`SELECT * FROM positions p JOIN position_type pt on p.position_type_id = pt.id WHERE pt.name = '${escapeSQL(type)}' ORDER BY timestamp DESC`)
       return data.rows;
 }

@@ -1,6 +1,7 @@
 import multer from "multer";
 import { picture_storing, picture_position_storing, picture_fetching, get_picture_by_id } from "../modules/pictures"
 import { Router, Request, Response } from 'express';
+import { check_request } from "../modules/authentification";
 
 
 /** 
@@ -18,7 +19,7 @@ This code creates a GET request route for fetching images. When a client makes a
 "/image" endpoint, the "picture_fetching" function will be called to handle the request and send a
 response with the image data or an error message. 
 */
-router.get("/image", picture_fetching);
+router.get("/image", check_request, picture_fetching);
 
 
 /** 
@@ -27,7 +28,7 @@ the "/upload" endpoint, the "picture_storing" function will be called to handle 
 store the image data in the server. The "upload.single("file")" middleware from the multer library
 is used to handle the file upload and store the file in the "uploads/" directory. 
 */
-router.post("/upload", upload.single("file"), picture_storing);
+router.post("/upload", check_request, upload.single("file"), picture_storing);
 
 
 /** 
@@ -37,7 +38,7 @@ to handle the request and store the image data and position in the server. The
 "upload.single("file")" middleware from the multer library is used to handle the file upload and
 store the file in the "uploads/" directory. 
 */
-router.post("/image/store", upload.single("file"), picture_position_storing);
+router.post("/image/store", check_request, upload.single("file"), picture_position_storing);
 
 
 /**
@@ -65,7 +66,7 @@ request and send a response with the image data or an error message. The ":id" p
 endpoint URL is used to specify the ID of the image to be fetched. The "async/await" syntax is used
 to handle asynchronous operations within the function. 
 */
-router.get('/image/:id', async (req: Request, res: Response) => {
+router.get('/image/:id', check_request, async (req: Request, res: Response) => {
     await fetch_image(req, res)
 });
 
