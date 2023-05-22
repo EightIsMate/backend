@@ -20,20 +20,20 @@ const CONFIG = {
 export const annotate_image = async(imageLink: String) => {
         const filePath = imageLink;
         var items: any[] = []
-        if (filePath) {
-            const client = new ImageAnnotatorClient(CONFIG);
-            // Make API request to annotate the image
-            const [result] = await client.annotateImage({
-                image: {source: { imageUri: filePath } },
-                features: [{ type: 'LABEL_DETECTION' }]
-            });
+        // if (filePath) {
+        //     const client = new ImageAnnotatorClient(CONFIG);
+        //     // Make API request to annotate the image
+        //     const [result] = await client.annotateImage({
+        //         image: {source: { imageUri: filePath } },
+        //         features: [{ type: 'LABEL_DETECTION' }]
+        //     });
             
-            const labels = result.labelAnnotations;
-            labels.forEach((label: { description: any; }) => 
-                items.push(label.description)
-            );
-            return items   
-        }
+        //     const labels = result.labelAnnotations;
+        //     labels.forEach((label: { description: any; }) => 
+        //         items.push(label.description)
+        //     );
+        //     return items   
+        // }
         return items
   }
 
