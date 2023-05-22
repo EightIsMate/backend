@@ -4,11 +4,11 @@ import {router as positionsRouter} from './src/routes/positions'
 import picuresRouter from './src/routes/pictures'
 import eventRouter from './src/routes/events'
 import visionRouter from './src/routes/vision'
+import sessionRouter from './src/routes/session';
 import dotenv from 'dotenv';
 import bodyParser from "body-parser";
 import cors from "cors";
 import logger from './src/middleware/logger';
-
 
 
 dotenv.config();
@@ -30,6 +30,7 @@ server.use('/positions', positionsRouter);
 server.use(picuresRouter);
 server.use(eventRouter);
 server.use(visionRouter);
+server.use(sessionRouter);
 
 server.get("/", (req, res) => {
   res.send("nice");

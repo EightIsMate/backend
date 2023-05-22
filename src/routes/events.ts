@@ -17,7 +17,6 @@ response objects as parameters, where request has image_id and event_code in its
 event_storing is called with the parametes and response is sent back to the requesting body. 
 It uses the Express Router to define the route. 
 */
-// create POST request route for uploading images
 router.post("/events", check_request, async (req: Request, res: Response) => {
     try {
         let eventtype_id: null | UUID = null;
