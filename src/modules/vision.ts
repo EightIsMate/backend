@@ -25,7 +25,7 @@ export const annotate_image = async(imageLink: String) => {
             // Make API request to annotate the image
             const [result] = await client.annotateImage({
                 image: {source: { imageUri: filePath } },
-                features: [{ type: 'LABEL_DETECTION' }]
+                features: [{ type: 'LABEL_DETECTION', maxResults: 3 }]
             });
             
             const labels = result.labelAnnotations;
